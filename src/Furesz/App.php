@@ -4,11 +4,22 @@ namespace Furesz;
 
 class App extends Singleton{
 
+    /** @var  string */
+    private $appRoot;
+
     /**
      * @return void
      */
     public function bootstrap(){
         $this->setTimezone();
+    }
+
+    /**
+     * @return string
+     */
+    public function getAppRoot()
+    {
+        return realpath($this->appRoot);
     }
 
     /**
@@ -21,4 +32,11 @@ class App extends Singleton{
         }
     }
 
+    /**
+     * @param $rootPath
+     */
+    public function setAppRoot($rootPath)
+    {
+        $this->appRoot = $rootPath;
+    }
 }
