@@ -1,0 +1,12 @@
+#A2Billing - User
+server {
+        location ~ /(default\.php|index\.php)/(.*){
+            index $1;
+            try_files $uri /$1?$args;
+        }
+
+        include /etc/nginx/include.d/common-php;
+        root /vagrant/public/;
+        server_name test.dev;
+}
+

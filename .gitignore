@@ -1,0 +1,12 @@
+#composer ignore
+/vendor
+/node_modules
+.env
+
+#phpStorm ignore
+.idea
+
+#Vagrant ignore
+.vagrant
+
+_ide_helper.php
