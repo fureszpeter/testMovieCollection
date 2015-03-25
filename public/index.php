@@ -1,8 +1,5 @@
 <?php
-require_once __DIR__ . "/../vendor/autoload.php";
 
-use Furesz\App;
-
-/** @var App $app */
-$app = App::getInstance();
-$app->bootstrap();
+/** @var Furesz\App $app */
+$app = require_once __DIR__ . "/../src/bootstrap.php";
+echo $app->getAppRoot();
