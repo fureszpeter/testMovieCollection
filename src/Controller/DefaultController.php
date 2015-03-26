@@ -14,6 +14,8 @@ use ValueObject\MovieCharacter;
 
 class DefaultController {
 
+    //@TODO Implement MVC
+    //@TODO Implement CommandBus pattern
     public function indexAction()
     {
         error_reporting(E_ALL);
@@ -38,15 +40,15 @@ class DefaultController {
 
         $movie = new Movie($sequenceDb, $dtoForMovie, $contractCollection);
 
-        var_dump($movie->getActors(SORT_DESC));
-        var_dump($movie->getActors(SORT_ASC));
+        yield var_dump($movie->getActors(SORT_DESC));
+        yield var_dump($movie->getActors(SORT_ASC));
 
         foreach ($movie->getContracts() as $contract){
             /** @var IActorContract $contract*/
-            echo "Contract of " . $contract->getActor()->getName() . " <br>\n";
+            yield "Contract of " . $contract->getActor()->getName() . " <br>\n";
             foreach ($contract->getCharacters() as $character){
                 /** @var MovieCharacter $character*/
-                echo "Actor acts as " . $character->getName() . " <br>\n";
+                yield "Actor acts as " . $character->getName() . " <br>\n";
             }
         }
     }

@@ -6,4 +6,7 @@ $app = require_once __DIR__ . "/../src/bootstrap.php";
 use Controller\DefaultController;
 
 $controller = new DefaultController();
-$controller->indexAction();
+$res=$controller->indexAction();
+foreach ($res as $v){
+    var_dump($v);
+}
