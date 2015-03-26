@@ -10,7 +10,7 @@ class Singleton
      *
      * @staticvar Singleton $instance The *Singleton* instances of this class.
      *
-     * @return Singleton The *Singleton* instance.
+     * @return $this
      */
     public static function getInstance()
     {

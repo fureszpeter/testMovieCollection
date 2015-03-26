@@ -25,7 +25,6 @@ class AutoIncrementFile extends AutoIncrement
         $this->dbPath = $dbPath;
     }
 
-
     /**
      * @return bool
      * @throws \Exception

@@ -37,6 +37,6 @@ class App extends Singleton{
      */
     public function setAppRoot($rootPath)
     {
-        $this->appRoot = $rootPath;
+        $this->appRoot = realpath($rootPath);
     }
 }

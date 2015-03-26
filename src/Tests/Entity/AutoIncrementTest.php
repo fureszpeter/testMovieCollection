@@ -3,6 +3,7 @@ namespace Tests\Entity;
 
 
 use Entity\AutoIncrementFile;
+use Furesz\App;
 use Furesz\Config\Config;
 use Symfony\Component\Finder\Finder;
 use Tests\TestCase;
@@ -33,7 +34,7 @@ class AutoIncrementTest extends TestCase{
      */
     protected function getConfigPath()
     {
-        return $this->app->getAppRoot() . "/config";
+        return App::getInstance()->getAppRoot() . "/config";
     }
 
     /**
@@ -42,9 +43,9 @@ class AutoIncrementTest extends TestCase{
     protected function getDBPath()
     {
         $config = new Config(new Finder(), $this->getConfigPath());
-        $config->setEnvPath($this->app->getAppRoot());
+        $config->setEnvPath(App::getInstance()->getAppRoot());
 
-        $dbPath = $this->app->getAppRoot() . "/" . $config->get("dataStore.dataStorePath");
+        $dbPath = App::getInstance()->getAppRoot() . "/" . $config->get("dataStore.dataStorePath");
 
         return $dbPath;
     }
