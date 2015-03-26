@@ -57,7 +57,7 @@ class DefaultController {
      */
     private function getEddieMurphysContract($sequenceDb)
     {
-        $actorEddieMurphy = new Actor($sequenceDb, "Eddie Murphy", new \DateTime("1961"));
+        $actorEddieMurphy = new Actor($sequenceDb, "Eddie Murphy", \DateTime::createFromFormat("Y", 1961));
         $characterCollectionForEddiesContract = new CharacterCollection();
         $characterCollectionForEddiesContract->append(new MovieCharacter("Shreman Klump"));
         $characterCollectionForEddiesContract->append(new MovieCharacter("Papa Klump"));
