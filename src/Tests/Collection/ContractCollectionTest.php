@@ -5,6 +5,7 @@ namespace Tests\Collection;
 use Collection\CharacterCollection;
 use Collection\ContractCollection;
 use Entity\Actor;
+use Entity\IAutoIncrement;
 use stdClass;
 use ValueObject\ActorMovieContract;
 
@@ -35,7 +36,12 @@ class ContractCollectionTest extends \PHPUnit_Framework_TestCase {
      */
     private function getContract()
     {
-        $actor = new Actor("Mock Actor", new \DateTime());
+        $sequence = $this->getMock(IAutoIncrement::class);
+        $sequence->expects($this->once())
+            ->method("getNextVal")
+            ->willReturn(1);
+
+        $actor = new Actor($sequence, "Mock Actor", new \DateTime("now - 50 years"));
         $characterCollection = new CharacterCollection();
         $contract = new ActorMovieContract($actor, $characterCollection);
 

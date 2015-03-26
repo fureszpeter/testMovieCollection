@@ -2,14 +2,36 @@
 
 namespace Entity;
 
-abstract class AbstractEntity implements \JsonSerializable{
+abstract class AbstractEntity implements \JsonSerializable
+{
+    const FIELD_ID = "id";
+
+    /** @var  integer */
+    protected $id;
+
+    function __construct(IAutoIncrement $sequence)
+    {
+        $this->id = $sequence->getNextVal();
+    }
 
     /**
-     * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
+     * @return int
      */
-    abstract function jsonSerialize();
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return array
+     */
+    abstract protected function getSerializableFields();
+
+    /**
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return json_encode($this->getSerializableFields());
+    }
 }
