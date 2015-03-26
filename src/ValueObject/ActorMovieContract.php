@@ -24,12 +24,12 @@ class ActorMovieContract implements IActorContract {
      */
     public function getActor()
     {
-        // TODO: Implement getActor() method.
+        return $this->Actor;
     }
 
     /** @return CharacterCollection */
     public function getCharacters()
     {
-        // TODO: Implement getCharacters() method.
+        return $this->MovieCharacter;
     }
 }

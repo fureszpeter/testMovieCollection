@@ -127,4 +127,33 @@ class MovieTest extends TestCase
 
         return $sequence;
     }
+
+    public function testSort()
+    {
+        $data = [
+            Movie::FIELD_RELEASE_DATE => new \DateTime(),
+            Movie::FIELD_RUNTIME      => new \DateInterval("PT1H"),
+            Movie::FIELD_TITLE        => "Test Movie",
+        ];
+
+        $characterCollection = new CharacterCollection();
+        $actor1 = new Actor($this->getMockSequence(1), "Mock Actor one", new \DateTime("now - 50 years"));
+        $actor2 = new Actor($this->getMockSequence(1), "Mock Actor two", new \DateTime("now - 40 years"));
+        $actor3 = new Actor($this->getMockSequence(1), "Mock Actor three", new \DateTime("now - 45 years"));
+        $actor4 = new Actor($this->getMockSequence(1), "Mock Actor four", new \DateTime("now - 20 years"));
+
+        $contractCollection = new ContractCollection();
+        $contractCollection->append(new ActorMovieContract($actor1, $characterCollection));
+        $contractCollection->append(new ActorMovieContract($actor2, $characterCollection));
+        $contractCollection->append(new ActorMovieContract($actor3, $characterCollection));
+        $contractCollection->append(new ActorMovieContract($actor4, $characterCollection));
+
+        $movie = new Movie($this->getMockSequence(1, 123), $data, $contractCollection);
+
+        $expectedArray_desc = [$actor1, $actor3, $actor2, $actor4];
+        $this->assertEquals($expectedArray_desc, $movie->getActors(SORT_DESC));
+
+        $expectedArray_asc = array_reverse($expectedArray_desc);
+        $this->assertEquals($expectedArray_asc, $movie->getActors(SORT_ASC));
+    }
 }

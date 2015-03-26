@@ -13,10 +13,13 @@ class CharacterCollectionTest extends \PHPUnit_Framework_TestCase {
         $collection = new CharacterCollection();
         $this->assertInstanceOf(CharacterCollection::class, $collection);
 
-        $character = new MovieCharacter();
+        $character = new MovieCharacter("Terminator I");
+        $character2 = new MovieCharacter("Terminator II");
         $collection->append($character);
-        $current = current($collection);
-        $this->assertEquals($character, $current);
+        $collection->append($character2);
+
+        $this->assertEquals($character, current($collection));
+        $this->assertEquals($character2, next($collection));
     }
 
     /** @expectedException \InvalidArgumentException */

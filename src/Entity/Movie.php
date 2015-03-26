@@ -5,6 +5,7 @@ namespace Entity;
 use Collection\ContractCollection;
 use Exception\Validation\ValidationException;
 use Furesz\Date\Validate;
+use ValueObject\IActorContract;
 
 class Movie extends AbstractEntity implements IMovie
 {
@@ -25,6 +26,9 @@ class Movie extends AbstractEntity implements IMovie
     /** @var  \DateTime */
     private $releaseDate;
 
+    /** @var  ContractCollection */
+    private $contracts;
+
     /**
      * @param IAutoIncrement $sequence
      * @param array $dto
@@ -40,6 +44,7 @@ class Movie extends AbstractEntity implements IMovie
         $this->setTitle($dto[self::FIELD_TITLE]);
         $this->setRuntime($dto[self::FIELD_RUNTIME]);
         $this->setReleaseDate($dto[self::FIELD_RELEASE_DATE]);
+        $this->setContracts($contract);
 
         parent::__construct($sequence);
     }
@@ -71,6 +76,22 @@ class Movie extends AbstractEntity implements IMovie
     {
         $this->validateReleaseDate($releaseDate);
         $this->releaseDate = $releaseDate;
+    }
+
+    /**
+     * @param ContractCollection $contracts
+     */
+    public function setContracts(ContractCollection $contracts)
+    {
+        $this->contracts = $contracts;
+    }
+
+    /**
+     * @return ContractCollection
+     */
+    public function getContracts()
+    {
+        return $this->contracts;
     }
 
     /**
@@ -113,11 +134,13 @@ class Movie extends AbstractEntity implements IMovie
 
     /**
      * @param $title
+     *
+     * @return bool
      * @throws ValidationException
      */
     private function validateTitle($title)
     {
-        if (preg_match(self::VALIDATE_TITLE_PATTERN, $title, $res) && $res[0]==$title) {
+        if (preg_match(self::VALIDATE_TITLE_PATTERN, $title, $res) && $res[0] == $title) {
             return true;
         }
 
@@ -163,12 +186,7 @@ class Movie extends AbstractEntity implements IMovie
      */
     protected function getSerializableFields()
     {
-        return [
-            self::FIELD_ID           => $this->id,
-            self::FIELD_TITLE        => $this->title,
-            self::FIELD_RUNTIME      => $this->runtime,
-            self::FIELD_RELEASE_DATE => $this->releaseDate
-        ];
+        return $this->getRequiredFields();
     }
 
     /**
@@ -180,5 +198,57 @@ class Movie extends AbstractEntity implements IMovie
         if ($releaseDate > new \DateTime()) {
             throw new ValidationException("Invalid release date.");
         }
+    }
+
+    /**
+     * @return array
+     */
+    function getRequiredFields()
+    {
+        return [
+            self::FIELD_ID           => $this->getId(),
+            self::FIELD_RELEASE_DATE => $this->getReleaseDate(),
+            self::FIELD_RUNTIME      => $this->getRuntime(),
+            self::FIELD_TITLE        => $this->getTitle()
+        ];
+    }
+
+    /**
+     * @param int $sortOrder
+     *
+     * @return Actor[]
+     */
+    public function getActors($sortOrder = SORT_DESC)
+    {
+
+        $this->getContracts()->uasort(function($a, $b) use ($sortOrder){
+            /** @var IActorContract $a */
+            /** @var IActorContract $b */
+            switch ($sortOrder){
+                case SORT_DESC:
+                    return $a->getActor()->getAge() < $b->getActor()->getAge();
+                    break;
+                case SORT_ASC:
+                    return $a->getActor()->getAge() > $b->getActor()->getAge();
+                    break;
+            }
+
+            return $a->getActor()->getAge() > $b->getActor()->getAge();
+        });
+
+        $actors=[];
+        foreach ($this->getContracts() as $contract){
+            /** @var IActorContract $contract */
+            $actors[]= $contract->getActor();
+        }
+        return $actors;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getTitle();
     }
 }

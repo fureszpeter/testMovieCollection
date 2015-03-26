@@ -92,11 +92,27 @@ class Actor extends AbstractEntity implements IActor
      */
     protected function getSerializableFields()
     {
+        return $this->getRequiredFields();
+    }
+
+    /**
+     * @return array
+     */
+    function getRequiredFields()
+    {
         return [
             self::FIELD_ID   => $this->id,
             self::FIELD_NAME => $this->getName(),
             self::FIELD_AGE  => $this->getAge(),
             self::FIELD_DOB  => $this->getDateOfBirth()
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

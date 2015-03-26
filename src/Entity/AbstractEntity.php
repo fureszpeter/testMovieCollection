@@ -25,6 +25,11 @@ abstract class AbstractEntity implements \JsonSerializable
     /**
      * @return array
      */
+    abstract function getRequiredFields();
+
+    /**
+     * @return array
+     */
     abstract protected function getSerializableFields();
 
     /**

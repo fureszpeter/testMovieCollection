@@ -4,12 +4,23 @@ namespace Entity;
 
 interface IActor extends \JsonSerializable{
 
-    /** string */
+    /**
+     * @return string
+     */
     public function getName();
 
-    /** integer */
+    /**
+     * @return integer
+     */
     public function getAge();
 
-    /** \DateTime */
+    /**
+     * @return \DateTime
+     */
     public function getDateOfBirth();
+
+    /**
+     * @return string
+     */
+    public function __toString();
 }
