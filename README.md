@@ -25,9 +25,6 @@ When creating these classes remember that we are looking for you to showcase you
 
 ##Vagrant
 
-vagrant up
-composer install (or update)
-
-
-
+1. vagrant up
+2. composer install (or update)
  
