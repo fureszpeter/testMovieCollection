@@ -165,8 +165,12 @@ class Movie extends AbstractEntity implements IMovie
     private function validateDTO(array $dto)
     {
         $required = $this->requiredFields();
-        if (array_intersect(array_keys($dto), $required) != $required) {
-            throw new \InvalidArgumentException();
+        if (array_diff($required, array_keys($dto))) {
+            throw new \InvalidArgumentException(
+                "Invalid DTO, missing field provided: " . var_export($dto, 1)
+                . " needed: " . var_export($required, 1)
+                . " missing: " . var_export(array_intersect(array_keys($dto), $required), 1)
+            );
         }
     }
 
@@ -221,10 +225,10 @@ class Movie extends AbstractEntity implements IMovie
     public function getActors($sortOrder = SORT_DESC)
     {
 
-        $this->getContracts()->uasort(function($a, $b) use ($sortOrder){
+        $this->getContracts()->uasort(function ($a, $b) use ($sortOrder) {
             /** @var IActorContract $a */
             /** @var IActorContract $b */
-            switch ($sortOrder){
+            switch ($sortOrder) {
                 case SORT_DESC:
                     return $a->getActor()->getAge() < $b->getActor()->getAge();
                     break;
@@ -236,11 +240,12 @@ class Movie extends AbstractEntity implements IMovie
             return $a->getActor()->getAge() > $b->getActor()->getAge();
         });
 
-        $actors=[];
-        foreach ($this->getContracts() as $contract){
+        $actors = [];
+        foreach ($this->getContracts() as $contract) {
             /** @var IActorContract $contract */
-            $actors[]= $contract->getActor();
+            $actors[] = $contract->getActor();
         }
+
         return $actors;
     }
 

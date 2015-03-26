@@ -13,7 +13,7 @@ class Actor extends AbstractEntity implements IActor
 
     const VALIDATION_NAME = "/([a-zA-Z ]+)/";
     const VALIDATION_DOB_MIN_YRS = 10;
-    const VALIDATION_DOB_MAX_YRS = 70;
+    const VALIDATION_DOB_MAX_YRS = 130;
 
     /** @var  string */
     private $name;
@@ -46,7 +46,7 @@ class Actor extends AbstractEntity implements IActor
     {
         $min = new \DateInterval("P" . self::VALIDATION_DOB_MIN_YRS . "Y");
         $max = new \DateInterval("P" . self::VALIDATION_DOB_MAX_YRS . "Y");
-        $age = new \DateInterval("P" . $dateOfBirth->diff(new \DateTime())->format("%Y") . "Y");
+        $age = new \DateInterval("P" . $dateOfBirth->diff(new \DateTime("now"))->y . "Y");
 
         if (!\Furesz\Date\Validate::betweenInterval($age, $min, $max)) {
             throw new ValidationException("Age not allowed! Min: " . $min->y . " max: " . $max->y . " given: " . $age->y);
