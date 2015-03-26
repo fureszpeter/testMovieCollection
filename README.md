@@ -19,4 +19,15 @@ Therefore, create a number of PHP classes that represent these entities and sati
 8. The Movie entity requires a method of retrieving all Actors ordered by descending age.
 
 When creating these classes remember that we are looking for you to showcase your knowledge and understanding of PHP and OOP.
+
+#INSTALL
+========
+
+##Vagrant
+
+vagrant up
+composer install (or update)
+
+
+
  
