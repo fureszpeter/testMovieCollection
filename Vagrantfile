@@ -1,6 +1,23 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+
+# Check required plugins
+#REQUIRED_PLUGINS = %w(vagrant-hostmanager)
+#exit unless REQUIRED_PLUGINS.all? do |plugin|
+#  Vagrant.has_plugin?(plugin) || (
+#    puts "The #{plugin} plugin is required. Please install it with:"
+#    puts "$ vagrant plugin install #{plugin}"
+#    false
+#  )
+#end
+
+
+required_plugins = %w(vagrant-hostmanager)
+required_plugins.each do |plugin|
+  system "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
+end
+
 Vagrant.configure(2) do |config|
     config.vm.box = "ubuntu/trusty64"
 
